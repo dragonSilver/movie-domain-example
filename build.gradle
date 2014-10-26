@@ -7,8 +7,29 @@
  * user guide available at http://gradle.org/docs/1.9/userguide/tutorial_java_projects.html
  */
 
-// Apply the java plugin to add support for Java
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.1.8.RELEASE")
+    }
+}
+
 apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+
+
+jar {
+    baseName = 'movie-domain-example'
+    version =  '0.1.0'
+}
+
+repositories {
+    mavenCentral()
+}
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -19,6 +40,17 @@ repositories {
 
 // In this section you declare the dependencies for your production and test code
 dependencies {
+
+    // tag::jetty[]
+    compile("org.springframework.boot:spring-boot-starter-web") {
+        exclude module: "spring-boot-starter-tomcat"
+    }
+    compile("org.springframework.boot:spring-boot-starter-jetty")
+    // end::jetty[]
+    // tag::actuator[]
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    // end::actuator[]
+
     // The production code uses the SLF4J logging API at compile time
     compile 'org.slf4j:slf4j-api:1.7.5'
     compile 'joda-time:joda-time:2.5'
@@ -32,4 +64,8 @@ dependencies {
     // 'test.useTestNG()' to your build script.
     testCompile 'junit:junit:4.11'
     testCompile 'org.easytesting:fest-assert:1.4'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.11'
 }
