@@ -1,0 +1,10 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<testsuite name="net.dg.domain.movie.discount.PercentDiscountStrategyTest" tests="2" failures="0" errors="0" timestamp="1970-01-01T00:00:00" hostname="localhost" time="1.414324413682E9">
+  <properties/>
+  <testcase name="할인_10퍼센트" classname="net.dg.domain.movie.discount.PercentDiscountStrategyTest" time="0.003"/>
+  <testcase name="할인_10퍼센트" classname="net.dg.domain.movie.discount.PercentDiscountStrategyTest" time="0.0"/>
+  <system-out><![CDATA[10.0
+10.0
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,9 +1,12 @@
 package net.dg.generic.money;
 
+import lombok.EqualsAndHashCode;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Currency;
 
+@EqualsAndHashCode(of={"amount", "currency"})
 public class Money {
     private static final RoundingMode DEFAULT_ROUNDING = RoundingMode.HALF_EVEN;
 
@@ -74,6 +77,10 @@ public class Money {
         return new Money(amount.multiply(BigDecimal.valueOf(multiplicand)),currency);
     }
 
+    public Money times(double multiplicand) {
+        return new Money(amount.multiply(BigDecimal.valueOf(multiplicand)),currency);
+    }
+
     public Money plus(Money added) {
         if (!getCurrency().equals(added.getCurrency())) {
             throw new IllegalArgumentException("Currency is not same!");
@@ -82,11 +89,19 @@ public class Money {
         return Money.valueOf(this.amount.add(added.amount), getCurrency());
     }
 
-    Currency getCurrency() {
+    public Money minus(Money added) {
+        if (!getCurrency().equals(added.getCurrency())) {
+            throw new IllegalArgumentException("Currency is not same!");
+        }
+
+        return Money.valueOf(this.amount.subtract(added.amount), getCurrency());
+    }
+
+    public Currency getCurrency() {
         return currency;
     }
 
-    BigDecimal getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 }
