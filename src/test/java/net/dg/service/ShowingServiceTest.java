@@ -15,13 +15,10 @@ import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ShowingServiceTest {
-
     @Mock
     private ReservationRepository reservationRepository;
-
     @Mock
     private CustomerRepository customerRepository;
-
     @Mock
     private ShowingRepository showingRepository;
 
