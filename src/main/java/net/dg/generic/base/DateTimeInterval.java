@@ -1,16 +1,33 @@
 package net.dg.generic.base;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.joda.time.DateTime;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.Date;
+
+@Embeddable
+@NoArgsConstructor
 @Getter
-public class DateTimeInterval {
-    private DateTime start;
-    private DateTime end;
+@ToString
+public class DateTimeInterval extends AbstractInterval{
+
+    @Column(name = "startDateTime")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date start;
+
+    @Column(name = "endDateTime")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date end;
 
     private DateTimeInterval(DateTime start, DateTime end) {
-        this.start = start;
-        this.end = end;
+        this.start = start.toDate();
+        this.end = end.toDate();
     }
 
     public static DateTimeInterval of(String start, String end) {
@@ -23,15 +40,21 @@ public class DateTimeInterval {
         return new DateTimeInterval(start, end);
     }
 
-    public boolean includes(DateTimeInterval compareInterval) {
-        DateTime compareStart = compareInterval.getStart();
-        DateTime compareEnd = compareInterval.getEnd();
+    @Override
+    public boolean includes(AbstractInterval compareInterval) {
+        DateTime compareStart = compareInterval.getStartDateTime();
+        DateTime compareEnd = compareInterval.getEndDateTime();
 
-        if(start.getMillis() <= compareStart.getMillis()) {
-            if(end.getMillis() >= compareEnd.getMillis()) {
+        if(getStartDateTime().getMillis() <= compareStart.getMillis()) {
+            if(getEndDateTime().getMillis() >= compareEnd.getMillis()) {
                 return true;
             }
         }
         return false;
+    }
+
+    public Integer getStartDayOfWeek() {
+        DateTime dateTime = new DateTime(start);
+        return dateTime.getDayOfWeek();
     }
 }

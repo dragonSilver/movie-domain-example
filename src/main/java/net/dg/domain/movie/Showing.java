@@ -1,14 +1,31 @@
 package net.dg.domain.movie;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import net.dg.generic.base.DateTimeInterval;
 import net.dg.generic.base.DayOfWeek;
 import net.dg.generic.money.Money;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "SHOWING")
+@NoArgsConstructor
 @Getter
 public class Showing {
-    private final Movie movie;
-    private int sequence;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "SHOWING_ID")
+    private Long id;
+
+    @ManyToOne
+    private Movie movie;
+
+    @Column
+    private Integer sequence;
+
+    @Embedded
     private DateTimeInterval playingInterval;
 
 
@@ -27,9 +44,8 @@ public class Showing {
     }
 
     public boolean playingOn(DayOfWeek day) {
-        return playingInterval.getStart().getDayOfWeek() == day.getCode();
+        return playingInterval.getStartDayOfWeek() == day.getCode();
     }
-
 
     public Reservation reserve(Customer customer, int audienceCount) {
         return new Reservation(customer, this, audienceCount);

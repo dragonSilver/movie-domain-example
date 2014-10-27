@@ -1,14 +1,23 @@
 package net.dg.domain.movie.discount;
 
+import lombok.NoArgsConstructor;
 import net.dg.domain.movie.Showing;
 import net.dg.domain.movie.rule.Rule;
 import net.dg.generic.money.Money;
 
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 import java.math.BigDecimal;
 import java.util.List;
 
+@Entity
+@DiscriminatorValue("P")
+@NoArgsConstructor
 public class PercentDiscountStrategy extends DiscountStrategy {
-    private final double percent;
+
+    @Column
+    private double percent;
 
     public PercentDiscountStrategy(double percent, List<Rule> rules) {
         super(rules);

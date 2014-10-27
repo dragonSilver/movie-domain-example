@@ -1,11 +1,16 @@
 package net.dg.generic.money;
 
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Currency;
 
+@Embeddable
+@NoArgsConstructor
 @EqualsAndHashCode(of={"amount", "currency"})
 public class Money {
     private static final RoundingMode DEFAULT_ROUNDING = RoundingMode.HALF_EVEN;
@@ -13,8 +18,10 @@ public class Money {
     static final Currency KRW = Currency.getInstance("KRW");
     static final Currency USD = Currency.getInstance("USD");
 
-    private final BigDecimal amount;
-    private final Currency currency;
+    @Column(name = "FEE_AMOUNT")
+    private BigDecimal amount = BigDecimal.ZERO;
+    @Column(name = "FEE_CURRENCY")
+    private Currency currency = KRW;
 
     public static Money wons(long amount) {
         return valueOf(amount, KRW);
