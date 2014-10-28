@@ -27,23 +27,41 @@ jar {
     version =  '0.1.0'
 }
 
+// 소스 인코딩 지정방법 1
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+// 소스 인코딩 지정밥법 2
+tasks.withType(Compile) {
+    options.encoding = 'UTF-8'
+}
+
 repositories {
     mavenCentral()
 }
 
 repositories {
     mavenCentral()
+}
+
+configurations {
+    providedRuntime
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web") {
-        exclude module: "spring-boot-starter-tomcat"
-    }
-    compile("org.springframework.boot:spring-boot-starter-jetty")
+    compile("org.springframework.boot:spring-boot-starter-web")
+    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+    compile("org.apache.tomcat.embed:tomcat-embed-jasper:7.0.56")
+
     compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
 
     compile("com.h2database:h2:1.4.182")
+
+    compile("jstl:jstl:1.2")
+
+
+    compile("org.webjars:bootstrap:3.0.3")
+    compile("org.webjars:jquery:2.0.3-1")
+    compile("org.webjars:jquery-tmpl:beta1.0.0")
 
     compile("org.slf4j:slf4j-api:1.7.5")
     compile("joda-time:joda-time:2.5")

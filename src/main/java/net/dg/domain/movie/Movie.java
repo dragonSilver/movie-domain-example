@@ -1,5 +1,6 @@
 package net.dg.domain.movie;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import net.dg.domain.movie.discount.DiscountStrategy;
@@ -7,9 +8,11 @@ import net.dg.domain.movie.discount.NoneDiscountStrategy;
 import net.dg.generic.money.Money;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "MOVIE")
+@JsonIgnoreProperties(value = {"discountStrategy", "fee"})
 @NoArgsConstructor
 @Getter
 public class Movie {
@@ -43,6 +46,10 @@ public class Movie {
         this.runningTime = runningTime;
         this.fee = fee;
         this.discountStrategy = discountStrategy;
+    }
+
+    public BigDecimal getFixedAmount() {
+        return fee.getAmount().setScale(0);
     }
 
     public Money calculateFee(Showing showing) {

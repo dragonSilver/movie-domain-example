@@ -13,22 +13,33 @@ import net.dg.generic.money.Money;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import javax.servlet.Filter;
 import java.util.List;
 
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
-public class Application {
+public class Application extends WebMvcConfigurerAdapter {
+
+    @Bean
+    public Filter characterEncodingFilter() {
+        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+        characterEncodingFilter.setEncoding("UTF-8");
+        characterEncodingFilter.setForceEncoding(true);
+        return characterEncodingFilter;
+    }
 
 
     public static void main(String[] args) {
         ApplicationContext ctx = SpringApplication.run(Application.class, args);
 
         importInitData(ctx);
-
     }
 
     private static void importInitData(ApplicationContext ctx) {
@@ -71,5 +82,4 @@ public class Application {
             }
         }
     }
-
 }

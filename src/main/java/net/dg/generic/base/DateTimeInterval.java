@@ -3,6 +3,7 @@ package net.dg.generic.base;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import net.dg.generic.util.DateUtil;
 import org.joda.time.DateTime;
 
 import javax.persistence.Column;
@@ -56,5 +57,9 @@ public class DateTimeInterval extends AbstractInterval{
     public Integer getStartDayOfWeek() {
         DateTime dateTime = new DateTime(start);
         return dateTime.getDayOfWeek();
+    }
+
+    public String getPlayingTimes() {
+        return DateUtil.toDateString(getStartDateTime()) + "~" + DateUtil.toDateString(getEndDateTime());
     }
 }

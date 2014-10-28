@@ -17,10 +17,10 @@ public class Reservation {
     @Column(name = "RESERVATION_ID")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Customer customer;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Showing showing;
 
     @Column

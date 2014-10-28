@@ -1,5 +1,6 @@
 package net.dg.domain.movie;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import net.dg.generic.base.DateTimeInterval;
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "SHOWING")
 @NoArgsConstructor
+@JsonIgnoreProperties(value = {"movie","playingInterval"})
 @Getter
 public class Showing {
 
@@ -19,7 +21,7 @@ public class Showing {
     @Column(name = "SHOWING_ID")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Movie movie;
 
     @Column
@@ -49,6 +51,10 @@ public class Showing {
 
     public Reservation reserve(Customer customer, int audienceCount) {
         return new Reservation(customer, this, audienceCount);
+    }
+
+    public String getPlayingTimes() {
+        return playingInterval.getPlayingTimes();
     }
 
     public Money calculateFee() {
